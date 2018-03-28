@@ -82,17 +82,21 @@ coverage report
 ```
 
 
-### Optional, if wanting to install and use with local postgresql
+### Optional, if wanting to install and use with local PostgreSQL
 
 A local PostgreSQL server will be faster than a GCP one.
 https://github.com/DjangoGirls/tutorial-extensions/tree/master/en/optional_postgresql_installation
+
+Internet will have more recent instructions for installing PostgreSQL, start there.
 
 Set admin password, remember it.
 
 Start postgres running
 
-`su postgres ` if on a mac/linux
+(Run `su postgres` if on a mac/linux)
+
 `pg_ctl start`  enter username and password
+
 
 start postgres shell with `psql`
 
@@ -105,34 +109,36 @@ create user lmnop with password 'password_here';
 create a database lmnop
 
 ```
-create database owner lmnop;
+create database lmnop owner lmnop;
 ```
 
 Various postgres shell commands
-connect to lmnop database
 
-```
-\c lmnop
-```
+`\c lmnop`  connect to lmnop database
 
-`\dt`    shows tables
+`\dt`  shows tables
 
 `\d table_name`   shows info (and constraints) for a table
 other sql as expected
 
 postgres shell command cheatsheet - https://gist.github.com/Kartones/dd3ff5ec5ea238d4c546
 
-set environment variable called
-POSTGRES_LMNOP_USER_PASSWORD
+set environment variable called `LMNOP_DB_PW`
 with a value of the lmnop user's password
 
+For tests, the DB user who is running the tests needs CREATEDB permission, so run
+
+```
+ALTER USER lmnop CREATEDB;
+```
 
 Mac users may need to run these commands; these one time
 
 ```
-sudo ln -s /Library/PosgreSQL/9.5/lib/libssl.1.0.0.dylib /usr/local/lib
-sudo ln -s /Library/PosgreSQL/9.5/lib/libcrypto.1.0.0.dylib /usr/local/lib`
+sudo ln -s /Library/PosgreSQL/10/lib/libssl.1.0.0.dylib /usr/local/lib
+sudo ln -s /Library/PosgreSQL/10/lib/libcrypto.1.0.0.dylib /usr/local/lib`
 ```
 
 And this when you start a new shell; or set it permanently in .bash_profile
+
 `export DYLD_FALLBACK_LIBRARY_PATH=/Library/PostgreSQL/9.5/lib:$DYLD_LIBRARY_PATH`
