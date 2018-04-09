@@ -19,6 +19,15 @@ class NewNoteForm(forms.ModelForm):
         model = Note
         fields = ('title', 'text')
 
+# class ShowReviewForm(forms.ModelForm):
+#     class Meta:
+#         model = Place
+#         fields = ('note', 'show_date', 'photo')
+#         widgets = {
+#             'show_date': DateInput()
+#         }
+
+
 
 class UserRegistrationForm(UserCreationForm):
 

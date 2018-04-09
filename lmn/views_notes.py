@@ -7,6 +7,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
+from django.contrib import messages
+from . import photo_manager
+import copy
+
 from django.utils import timezone
 
 
@@ -52,4 +56,29 @@ def notes_for_show(request, show_pk):   # pk = show pk
 
 def note_detail(request, note_pk):
     note = get_object_or_404(Note, pk=note_pk)
+    # if request.method == 'POST':
+    #     old_note = get_object_or_404(Note, pk=note_pk)
+    #
+    #     form = ShowReviewForm(request.POST, request.FILES, instance=place)
+    #     if form.is_valid():
+    #
+    #
+    #         # Delete any old photo
+    #         if 'photo' in form.changed_data:
+    #             photo_manager.delete_photo()
+    #
+    #         form.save()
+    #
+    #         messages.info(request, 'Show information updated!')
+    #
+    #     else:
+    #         messages.error(request, form.errors)
+
     return render(request, 'lmn/notes/note_detail.html' , {'note' : note })
+
+@login_required
+def delete_notes(request):
+    pk = request.POST['note_pk']
+    notes = get_object_or_404(Note, pk=pk)
+    Note.object.delete()
+    return redirect('lmn/notes/note_list.htm')
