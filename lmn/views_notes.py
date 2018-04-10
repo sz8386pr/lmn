@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Venue, Artist, Note, Show
-from .forms import VenueSearchForm, NewNoteForm, ArtistSearchForm, UserRegistrationForm
+from .forms import VenueSearchForm, NewNoteForm, EditNoteForm, ArtistSearchForm, UserRegistrationForm
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -24,7 +24,7 @@ def new_note(request, show_pk):
         form = NewNoteForm(request.POST)
         if form.is_valid():
 
-            note = form.save(commit=False);
+            note = form.save(commit=False)
             if note.title and note.text:  # If note has both title and text
                 note.user = request.user
                 note.show = show
@@ -35,7 +35,7 @@ def new_note(request, show_pk):
     else :
         form = NewNoteForm()
 
-    return render(request, 'lmn/notes/new_note.html' , { 'form' : form , 'show':show })
+    return render(request, 'lmn/notes/new_note.html' , {'form': form , 'show':show})
 
 
 
@@ -50,31 +50,47 @@ def notes_for_show(request, show_pk):   # pk = show pk
     notes = Note.objects.filter(show=show_pk).order_by('posted_date').reverse()
     show = Show.objects.get(pk=show_pk)  # Contains artist, venue
 
-    return render(request, 'lmn/notes/note_list.html', {'show': show, 'notes':notes } )
+    return render(request, 'lmn/notes/note_list.html', {'show':show, 'notes':notes})
 
 
+@login_required
+def note_details(request, note_pk):
 
-def note_detail(request, note_pk):
     note = get_object_or_404(Note, pk=note_pk)
-    # if request.method == 'POST':
-    #     old_note = get_object_or_404(Note, pk=note_pk)
-    #
-    #     form = ShowReviewForm(request.POST, request.FILES, instance=place)
-    #     if form.is_valid():
-    #
-    #
-    #         # Delete any old photo
-    #         if 'photo' in form.changed_data:
-    #             photo_manager.delete_photo()
-    #
-    #         form.save()
-    #
-    #         messages.info(request, 'Show information updated!')
-    #
-    #     else:
-    #         messages.error(request, form.errors)
 
-    return render(request, 'lmn/notes/note_detail.html' , {'note' : note })
+    if request.method == 'POST':
+
+
+        old_note = get_object_or_404(Note, pk=note_pk)
+
+        form = EditNoteForm(request.POST, request.FILES, instance=note)
+        if form.is_valid():
+
+
+            # Delete any old photo
+            if 'photo' in form.changed_data:
+                photo_manager.delete_photo(old_note.photo)
+
+            form.save()
+
+            messages.info(request, 'Note information updated!')
+
+        else:
+            messages.error(request, form.errors)
+
+        return redirect('note_details', note_pk=note_pk)
+
+
+    else:
+
+        if note.posted_date:
+            edit_form = EditNoteForm(instance=note)
+            return render(request, 'lmn/notes/note_detail.html', { 'note' : note, 'edit_form' : edit_form } )
+
+        else:
+
+            return render(request, 'lmn/notes/note_detail.html' , { 'note' : note })
+
 
 @login_required
 def delete_notes(request):

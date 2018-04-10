@@ -16,6 +16,10 @@
   <p class="show_info"><a href="{% url 'lmn:notes_for_show' show_pk=note.show.pk %}">{{ note.show.artist.name }} at {{ note.show.venue.name }} on {{ note.show.show_date }}</a></p>
   <P class="note_info">Posted on {{ note.posted_date }} by <a class='user' href="{% url 'lmn:user_profile' user_pk=note.user.pk %}">{{ note.user.username }}</a></p>
   <p class='note_text'>{{ note.text|truncatechars:100 }}</p>
+  {% if note.photo %}
+    <img class="note_photo" src="{{ note.photo.url }}">
+  {% endif %}
+</div>
   <hr>
 
 {% empty %}

@@ -17,15 +17,14 @@ class ArtistSearchForm(forms.Form):
 class NewNoteForm(forms.ModelForm):
     class Meta:
         model = Note
-        fields = ('title', 'text')
+        fields = ('title', 'text', 'photo')
 
-# class ShowReviewForm(forms.ModelForm):
-#     class Meta:
-#         model = Place
-#         fields = ('note', 'show_date', 'photo')
-#         widgets = {
-#             'show_date': DateInput()
-#         }
+
+class EditNoteForm(forms.ModelForm):
+    class Meta:
+        model = Note
+        fields = ('title', 'text', 'photo')
+
 
 
 
