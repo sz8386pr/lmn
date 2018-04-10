@@ -21,7 +21,7 @@ def new_note(request, show_pk):
 
     if request.method == 'POST' :
 
-        form = NewNoteForm(request.POST)
+        form = NewNoteForm(request.POST, request.FILES)
         if form.is_valid():
 
             note = form.save(commit=False)
@@ -78,7 +78,7 @@ def note_details(request, note_pk):
         else:
             messages.error(request, form.errors)
 
-        return redirect('note_details', note_pk=note_pk)
+        return redirect('lmn:note_detail', note_pk=note_pk)
 
 
     else:
