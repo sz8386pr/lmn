@@ -6,6 +6,7 @@ from .forms import VenueSearchForm, NewNoteForm, EditNoteForm, ArtistSearchForm,
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.http.response import HttpResponseForbidden
 
 from django.contrib import messages
 from . import photo_manager
@@ -58,43 +59,58 @@ def note_details(request, note_pk):
 
     note = get_object_or_404(Note, pk=note_pk)
 
-    if request.method == 'POST':
+    if request.user != note.user:
 
-
-        old_note = get_object_or_404(Note, pk=note_pk)
-
-        form = EditNoteForm(request.POST, request.FILES, instance=note)
-        if form.is_valid():
-
-
-            # Delete any old photo
-            if 'photo' in form.changed_data:
-                photo_manager.delete_photo(old_note.photo)
-
-            form.save()
-
-            messages.info(request, 'Note information updated!')
-
-        else:
-            messages.error(request, form.errors)
-
-        return redirect('lmn:note_detail', note_pk=note_pk)
-
+        #Can alter to redirect or render a template to be added
+        return HttpResponseForbidden("ERROR: You may only alter your own notes.")
 
     else:
 
-        if note.posted_date:
-            edit_form = EditNoteForm(instance=note)
-            return render(request, 'lmn/notes/note_detail.html', { 'note' : note, 'edit_form' : edit_form } )
+        if request.method == 'POST':
+
+
+            old_note = get_object_or_404(Note, pk=note_pk)
+
+            form = EditNoteForm(request.POST, request.FILES, instance=note)
+            if form.is_valid():
+
+
+                # Delete any old photo
+                if 'photo' in form.changed_data:
+                    photo_manager.delete_photo(old_note.photo)
+
+                form.save()
+
+                messages.info(request, 'Note information updated!')
+
+            else:
+                messages.error(request, form.errors)
+
+            return redirect('lmn:note_detail', note_pk=note_pk)
+
 
         else:
 
-            return render(request, 'lmn/notes/note_detail.html' , { 'note' : note })
+            if note.posted_date:
+                edit_form = EditNoteForm(instance=note)
+                return render(request, 'lmn/notes/note_detail.html', { 'note' : note, 'edit_form' : edit_form } )
+
+            else:
+
+                return render(request, 'lmn/notes/note_detail.html' , { 'note' : note })
 
 
 @login_required
-def delete_notes(request):
+def delete_note(request):
+
     pk = request.POST['note_pk']
-    notes = get_object_or_404(Note, pk=pk)
-    Note.object.delete()
-    return redirect('lmn/notes/note_list.htm')
+    note = get_object_or_404(Note, pk=pk)
+
+    if request.user != note.user:
+
+        #Can alter to redirect or render a template to be added.
+        return HttpResponseForbidden("ERROR: You may only delete your own notes.")
+
+    else:
+        note.delete()
+        return redirect('lmn:latest_notes')
