@@ -78,10 +78,10 @@ WSGI_APPLICATION = 'lmnop_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'lmnop',
-        'USER' : 'lmnop',
+        'NAME': os.environ['DATABASE'],
+        'USER' : os.environ['USER'],
         'PASSWORD' : os.environ['LMNOP_DB_PW'],
-        'HOST' : 'localhost',
+        'HOST' : os.environ['HOST'],
         'PORT' : '5432',
     }
 }
