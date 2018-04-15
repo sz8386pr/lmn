@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Venue, Artist, Note, Show
@@ -27,6 +28,11 @@ def artist_list(request):
         artists = Artist.objects.filter(name__icontains=search_name).order_by('name')
     else:
         artists = Artist.objects.all().order_by('name')
+
+    paginator = Paginator(artists, 10)
+
+    page = request.GET.get('page')
+    artists = paginator.get_page(page)
 
     return render(request, 'lmn/artists/artist_list.html', {'artists':artists, 'form':form, 'search_term':search_name})
 

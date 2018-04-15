@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Venue, Artist, Note, Show
@@ -42,6 +43,12 @@ def new_note(request, show_pk):
 
 def latest_notes(request):
     notes = Note.objects.all().order_by('posted_date').reverse()
+
+    paginator = Paginator(notes, 5)
+
+    page = request.GET.get('page')
+    notes = paginator.get_page(page)
+
     return render(request, 'lmn/notes/note_list.html', {'notes':notes})
 
 
@@ -50,6 +57,11 @@ def notes_for_show(request, show_pk):   # pk = show pk
     # Notes for show, most recent first
     notes = Note.objects.filter(show=show_pk).order_by('posted_date').reverse()
     show = Show.objects.get(pk=show_pk)  # Contains artist, venue
+
+    paginator = Paginator(notes, 5)
+
+    page = request.GET.get('page')
+    notes = paginator.get_page(page)
 
     return render(request, 'lmn/notes/note_list.html', {'show':show, 'notes':notes})
 

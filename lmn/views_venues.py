@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Venue, Artist, Note, Show
@@ -17,11 +18,19 @@ def venue_list(request):
 
     if search_name:
         #search for this venue, display results
-        venues = Venue.objects.filter(name__icontains=search_name).order_by('name')
+        venue_list = Venue.objects.filter(name__icontains=search_name).order_by('name')
     else :
-        venues = Venue.objects.all().order_by('name')   # Todo paginate
+        venue_list = Venue.objects.all().order_by('name')   # Todo paginate
 
-    return render(request, 'lmn/venues/venue_list.html', { 'venues' : venues, 'form':form, 'search_term' : search_name })
+    for venue in venue_list:
+        venue.shows = Show.objects.filter(venue=venue).order_by('show_date')
+
+    paginator = Paginator(venue_list, 4)
+
+    page = request.GET.get('page')
+    venues = paginator.get_page(page)
+
+    return render(request, 'lmn/venues/venue_list.html', { 'venues' : venues, 'venue.shows':venue.shows, 'form':form, 'search_term' : search_name })
 
 
 def artists_at_venue(request, venue_pk):   # pk = venue_pk
