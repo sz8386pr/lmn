@@ -133,8 +133,12 @@ STATICFILES_DIR = (
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+DEFUALT_MEDIA_STORAGE = 'storages.backends.gs.GSBotoStorage'
+GS_ACCESS_KEY_ID = os.environ['GS_ID']
+GS_BUCKET_ACCESS_KEY = os.environ['GS_KEY']
+GS_BUCKET_NAME = os.environ['GS_NAME']
+MEDIA_URL = 'storages.backends.gs.GSBotoStorage'
+
 # Where to send user after successful login if no other page is provided.
 # Should provide the user object.
 LOGIN_REDIRECT_URL = 'lmn:my_user_profile'
