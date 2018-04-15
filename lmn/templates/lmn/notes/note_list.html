@@ -51,4 +51,22 @@ display button to add new note for that show. -->
 
 {% endif %}
 
+<div class="pagination">
+  <span class="step-links">
+    {% if notes.has_previous %}
+      <a href="?page=1">&laquo; first</a>
+      <a href="?page={{ notes.previous_page_number }}">previous</a>
+    {% endif %}
+
+    <span class="current">
+      Page {{ notes.number }} of {{ notes.paginator.num_pages }}.
+    </span>
+
+    {% if notes.has_next %}
+      <a href="?page={{ notes.next_page_number }}">next</a>
+      <a href="?page={{ notes.paginator.num_pages }}">last &raquo;</a>
+    {% endif %}
+  </span>
+</div>
+
 {% endblock %}
