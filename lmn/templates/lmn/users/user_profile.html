@@ -6,6 +6,14 @@
 
 Includes list of user's notes with title and preview of text.
 Text truncated to 200 characters. -->
+{% if user.is_authenticated and users_profile.pk == user.pk %}
+  <span id='edit_user'>
+      <a href="{% url 'lmn:edit_user' user_pk=user.pk %}">
+          Edit profile
+      </a>
+  </span>
+{% endif %}
+
 
 <h2 id='username_notes'>{{ users_profile.username }}'s notes</h2>
 

@@ -30,6 +30,7 @@ urlpatterns = [
     # User related
     url(r'^user/profile/(?P<user_pk>\d+)/$', views_users.user_profile, name='user_profile'),
     url(r'^user/profile/$', views_users.my_user_profile, name='my_user_profile'),
+    url(r'^user/edit/(?P<user_pk>\d+)/$', views_users.edit_user, name='edit_user'),
 
     # Login/logout/signup views are in the app-level urls.py
 

@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Venue, Artist, Note, Show
-from .forms import VenueSearchForm, NewNoteForm, ArtistSearchForm, UserRegistrationForm
+from .forms import VenueSearchForm, NewNoteForm, ArtistSearchForm, UserRegistrationForm, UserEditForm
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -46,3 +46,24 @@ def register(request):
     else:
         form = UserRegistrationForm()
         return render(request, 'registration/register.html', { 'form' : form } )
+
+
+@login_required
+def edit_user(request, user_pk):
+
+    user = get_object_or_404(User, pk=user_pk)
+    form = UserEditForm(instance=user)
+
+    if request.method == 'POST':
+
+        form = UserEditForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('lmn:user_profile', user_pk=user_pk)
+
+        else:
+            message = 'Please check the data you entered'
+            return render(request, ('lmn/users/edit_user.html', user_pk), {'form': form, 'message': message})
+
+    else:
+        return render(request, ('lmn/users/edit_user.html', user_pk), {'form': form, 'user': user})
