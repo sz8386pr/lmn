@@ -133,12 +133,13 @@ STATICFILES_DIR = (
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-DEFUALT_MEDIA_STORAGE = 'storages.backends.gs.GSBotoStorage'
-GS_ACCESS_KEY_ID = os.environ['GS_ID']
-GS_BUCKET_ACCESS_KEY = os.environ['GS_KEY']
-GS_BUCKET_NAME = os.environ['GS_NAME']
-MEDIA_URL = 'storages.backends.gs.GSBotoStorage'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+GS_BUCKET_NAME = os.environ['BUCKET_NAME']
+GS_PROJECT_ID = os.environ['PROJECT_ID']
+MEDIA_URL = 'https://storage.googleapis.com/%s/media/' % GS_BUCKET_NAME
 # Where to send user after successful login if no other page is provided.
 # Should provide the user object.
 LOGIN_REDIRECT_URL = 'lmn:my_user_profile'
