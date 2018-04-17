@@ -16,6 +16,17 @@
   <p class="show_info"><a href="{% url 'lmn:notes_for_show' show_pk=note.show.pk %}">{{ note.show.artist.name }} at {{ note.show.venue.name }} on {{ note.show.show_date }}</a></p>
   <P class="note_info">Posted on {{ note.posted_date }} by <a class='user' href="{% url 'lmn:user_profile' user_pk=note.user.pk %}">{{ note.user.username }}</a></p>
   <p class='note_text'>{{ note.text|truncatechars:100 }}</p>
+    {% if user.is_authenticated %}
+    <script type="text/javascript" async src="https://platform.twitter.com/widgets.js"></script>
+    <a class="twitter-share-button"
+       href="https://twitter.com/share"
+       data-size="large"
+       data-text="{{ note.title }}"
+       data-url="http://127.0.0.1:8000"
+       data-hashtags="{{ note.show.artist.name }} #{{ note.show.venue.name }} #{{ note.user }}"
+       data-via="twitterdev"
+       data-related="twitterapi, twitter">Tweet</a>
+    {% endif %}
   <hr>
 
 {% empty %}
