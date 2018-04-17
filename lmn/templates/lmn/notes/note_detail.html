@@ -12,10 +12,8 @@
     <a class="twitter-share-button"
        href="https://twitter.com/share"
        data-size="large"
-       data-text="{{ note.title }}"
-       data-url="http://127.0.0.1:8000"
-       data-hashtags="{{ note.show.artist.name }} #{{ note.show.venue.name }} #{{ note.user }}"
-       data-via="twitterdev"
+       data-text="Review: {{ note.title }} Link: "
+       data-hashtags="{{ twitterArtist }} #{{ twitterVenue }} #{{ twitterCity }}"
        data-related="twitterapi, twitter">Tweet</a>
     {% endif %}
 

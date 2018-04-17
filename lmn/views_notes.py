@@ -52,4 +52,10 @@ def notes_for_show(request, show_pk):   # pk = show pk
 
 def note_detail(request, note_pk):
     note = get_object_or_404(Note, pk=note_pk)
-    return render(request, 'lmn/notes/note_detail.html' , {'note' : note })
+
+    twitterArtist = ''.join(note.show.artist.name.split())
+    twitterVenue = ''.join(note.show.venue.name.split())
+    twitterCity = ''.join(note.show.venue.city.split() + note.show.venue.state.split())
+
+    return render(request, 'lmn/notes/note_detail.html' , {'note' : note, 'twitterArtist' : twitterArtist,
+                                                           'twitterVenue' : twitterVenue, 'twitterCity': twitterCity})
