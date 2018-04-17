@@ -20,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '8c01$#j44g3znb)$q0()8)!%ts-jc)k12!a75-!63qb%bj=d4k'
+SECRET_KEY = os.environ['COOKIE']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -78,10 +79,10 @@ WSGI_APPLICATION = 'lmnop_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'lmnop',
-        'USER' : 'lmnop',
+        'NAME': os.environ['DATABASE'],
+        'USER' : os.environ['USER'],
         'PASSWORD' : os.environ['LMNOP_DB_PW'],
-        'HOST' : 'localhost',
+        'HOST' : os.environ['HOST'],
         'PORT' : '5432',
     }
 }
@@ -123,9 +124,23 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+STATICFILES_DIR = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+GS_BUCKET_NAME = os.environ['BUCKET_NAME']
+GS_PROJECT_ID = os.environ['PROJECT_ID']
+MEDIA_URL = 'https://storage.googleapis.com/%s/media/' % GS_BUCKET_NAME
 # Where to send user after successful login if no other page is provided.
 # Should provide the user object.
 LOGIN_REDIRECT_URL = 'lmn:my_user_profile'

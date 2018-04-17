@@ -17,9 +17,10 @@ urlpatterns = [
 
     # Note related
     url(r'^notes/latest/$', views_notes.latest_notes, name='latest_notes'),
-    url(r'^notes/detail/(?P<note_pk>\d+)/$', views_notes.note_detail, name='note_detail'),
+    url(r'^notes/detail/(?P<note_pk>\d+)/$', views_notes.note_details, name='note_detail'),
     url(r'^notes/for_show/(?P<show_pk>\d+)/$', views_notes.notes_for_show, name='notes_for_show'),
     url(r'^notes/add/(?P<show_pk>\d+)/$', views_notes.new_note, name='new_note'),
+    url(r'^notes/delete/$', views_notes.delete_note, name='delete_note'),
 
     # Artist related
     url(r'^artists/list/$', views_artists.artist_list, name='artist_list'),
@@ -29,6 +30,7 @@ urlpatterns = [
     # User related
     url(r'^user/profile/(?P<user_pk>\d+)/$', views_users.user_profile, name='user_profile'),
     url(r'^user/profile/$', views_users.my_user_profile, name='my_user_profile'),
+    url(r'^user/edit/(?P<user_pk>\d+)/$', views_users.edit_user, name='edit_user'),
 
     # Login/logout/signup views are in the app-level urls.py
 
