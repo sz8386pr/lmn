@@ -14,6 +14,16 @@
   <p>No photo uploaded</p>
 {% endif %}
 
+{% if user.is_authenticated %}
+<script type="text/javascript" async src="https://platform.twitter.com/widgets.js"></script>
+<a class="twitter-share-button"
+   href="https://twitter.com/share"
+   data-size="large"
+   data-text="Review by {{ note.user }}: {{ note.title }} Link: "
+   data-hashtags="{{ twitterArtist }} #{{ twitterVenue }} #{{ twitterCity }}"
+   data-related="twitterapi, twitter">Tweet</a>
+{% endif %}
+
 <form action="{% url 'lmn:note_detail' note_pk=note.pk %}" method="POST" enctype="multipart/form-data">
   {% csrf_token %}
   {{ edit_form.as_p }}

@@ -71,6 +71,10 @@ def note_details(request, note_pk):
 
     note = get_object_or_404(Note, pk=note_pk)
 
+    twitterArtist = ''.join(note.show.artist.name.split())
+    twitterVenue = ''.join(note.show.venue.name.split())
+    twitterCity = ''.join(note.show.venue.city.split() + note.show.venue.state.split())
+
     if request.user != note.user:
 
         #Can alter to redirect or render a template to be added
@@ -105,11 +109,14 @@ def note_details(request, note_pk):
 
             if note.posted_date:
                 edit_form = EditNoteForm(instance=note)
-                return render(request, 'lmn/notes/note_detail.html', { 'note' : note, 'edit_form' : edit_form } )
+                return render(request, 'lmn/notes/note_detail.html', { 'note' : note, 'edit_form' : edit_form, 'twitterArtist' : twitterArtist,
+                                                                       'twitterVenue' : twitterVenue, 'twitterCity': twitterCity} } )
 
             else:
 
-                return render(request, 'lmn/notes/note_detail.html' , { 'note' : note })
+                return render(request, 'lmn/notes/note_detail.html' , { 'note' : note, 'twitterArtist' : twitterArtist,
+                                                                       'twitterVenue' : twitterVenue, 'twitterCity': twitterCity} })
+
 
 
 @login_required
