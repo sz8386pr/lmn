@@ -139,7 +139,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 GS_BUCKET_NAME = os.environ['BUCKET_NAME']
 GS_PROJECT_ID = os.environ['PROJECT_ID']
-GS_CREDENTIALS = os.environ['GOOGLE_APPLICATION_CREDENTIALS']
+GOOGLE_APPLICATION_CREDENTIALS = os.environ['GOOGLE_APPLICATION_CREDENTIALS']
 MEDIA_URL = 'https://storage.googleapis.com/%s/media/' % GS_BUCKET_NAME
 # Where to send user after successful login if no other page is provided.
 # Should provide the user object.
