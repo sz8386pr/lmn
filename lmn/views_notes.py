@@ -110,12 +110,12 @@ def note_details(request, note_pk):
             if note.posted_date:
                 edit_form = EditNoteForm(instance=note)
                 return render(request, 'lmn/notes/note_detail.html', { 'note' : note, 'edit_form' : edit_form, 'twitterArtist' : twitterArtist,
-                                                                       'twitterVenue' : twitterVenue, 'twitterCity': twitterCity} } )
+                                                                       'twitterVenue' : twitterVenue, 'twitterCity': twitterCity } )
 
             else:
 
                 return render(request, 'lmn/notes/note_detail.html' , { 'note' : note, 'twitterArtist' : twitterArtist,
-                                                                       'twitterVenue' : twitterVenue, 'twitterCity': twitterCity} })
+                                                                       'twitterVenue' : twitterVenue, 'twitterCity': twitterCity })
 
 
 
