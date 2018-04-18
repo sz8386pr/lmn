@@ -20,7 +20,8 @@
   {% if note.photo %}
     <img class="note_photo" src="{{ note.photo.url }}">
   {% endif %}
-  <p></b></p>
+
+    {% if note.user.pk == user.pk %}
   <form action="{% url 'lmn:note_detail' note_pk=note.pk %}">
     <input id="edit_note" type="submit" value="Edit Note">
   </form>
@@ -29,6 +30,8 @@
     <input type="hidden" name="note_pk" value="{{ note.pk }}">
     <button type="submit" class="delete_note">Delete Note</button>
   </form>
+
+    {% endif %}
 
   <script src="{% static 'js/delete_confirmation.js' %}"></script>
 </div>

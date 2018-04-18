@@ -30,7 +30,7 @@ def venue_list(request):
     page = request.GET.get('page')
     venues = paginator.get_page(page)
 
-    return render(request, 'lmn/venues/venue_list.html', { 'venues' : venues, 'venue.shows':venue.shows, 'form':form, 'search_term' : search_name })
+    return render(request, 'lmn/venues/venue_list.html', { 'venues' : venues, 'form':form, 'search_term' : search_name })
 
 
 def artists_at_venue(request, venue_pk):   # pk = venue_pk
@@ -43,7 +43,6 @@ def artists_at_venue(request, venue_pk):   # pk = venue_pk
     return render(request, 'lmn/artists/artist_list_for_venue.html', {'venue' : venue, 'shows' :shows})
 
 
-
 def venue_detail(request, venue_pk):
-    venue = get_object_or_404(Venue, pk=venue_pk);
-    return render(request, 'lmn/venues/venue_detail.html' , {'venue' : venue})
+    venue = get_object_or_404(Venue, pk=venue_pk)
+    return render(request, 'lmn/venues/venue_detail.html', {'venue': venue})
