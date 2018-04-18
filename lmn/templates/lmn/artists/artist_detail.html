@@ -3,6 +3,12 @@
 {% block content %}
 
 <h2 id='artist_detail_title'>Artist Detail</h2>
-<p id='artist_name'>{{ artist.name }}</p>
+<h3 id='artist_name'>{{ artist.name }}</h3>
 
+
+{% for show in shows %}
+    <ul><a href="{% url 'lmn:notes_for_show' show_pk=show.pk %}">{{ show.show_date }} @ {{ show.venue.name }}</a></ul>
+    {% empty %}
+    There are no shows
+{% endfor %}
 {% endblock %}

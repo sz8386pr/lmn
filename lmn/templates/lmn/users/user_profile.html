@@ -17,7 +17,7 @@ Text truncated to 200 characters. -->
 <h2 id='username_notes'>{{ users_profile.username }}'s notes</h2>
 
 {% for note in notes %}
-
+<hr>
 <div class='note' id="note_{{ note.pk }}">
   <h3 class="note_title">
       {% if user.pk == note.user.pk %}

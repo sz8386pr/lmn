@@ -170,10 +170,7 @@ div #left-header {
 }
 
 div #right-header {
-  float: right;
   text-align: right;
-}
+  overflow: hidden;
 
-div #clear {
-  clear: both;
 }
