@@ -1,0 +1,17 @@
+1)
+  set COOKIE=8c01$#j44g3znb)$q0()8)!%ts-jc)k12!a75-!63qb%bj=d4k
+    or use secret_key.py to generate a new cookie with:
+      python gen_secret_key.py then run a 'set COOKIE="<result>"'
+  set LMNOP_DB_PW=<your password>
+
+2)
+  start postgresql server
+
+3)
+  enter virtual environment with:
+    <virtual environment name>\scripts\activate
+  then install the requirements with:
+    pip install -r requirments.text
+
+4) run django server
+    python manage.py runserver
