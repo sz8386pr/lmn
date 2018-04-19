@@ -94,7 +94,7 @@ def note_details(request, note_pk):
                 # Delete any old photo
                 if 'photo' in form.changed_data:
                     photo_manager.delete_photo(old_note.photo)
-
+                note.publish()
                 form.save()
 
                 messages.info(request, 'Note information updated!')
