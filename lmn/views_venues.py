@@ -9,6 +9,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
 from django.utils import timezone
+from tzlocal import get_localzone
+from django.utils.timezone import activate
+
 
 
 def venue_list(request):
@@ -35,6 +38,7 @@ def venue_list(request):
 
 def artists_at_venue(request, venue_pk):   # pk = venue_pk
 
+    activate(get_localzone())
     ''' Get all of the artists who have played a show at the venue with pk provided '''
 
     shows = Show.objects.filter(venue=venue_pk).order_by('show_date').reverse() # most recent first
