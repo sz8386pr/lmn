@@ -14,10 +14,14 @@ from . import photo_manager
 import copy
 
 from django.utils import timezone
+from tzlocal import get_localzone
+from django.utils.timezone import activate
+
 
 
 @login_required
 def new_note(request, show_pk):
+    activate(get_localzone())
 
     show = get_object_or_404(Show, pk=show_pk)
 
@@ -42,6 +46,7 @@ def new_note(request, show_pk):
 
 
 def latest_notes(request):
+    activate(get_localzone())
     notes = Note.objects.all().order_by('posted_date').reverse()
 
     paginator = Paginator(notes, 5)
@@ -53,6 +58,7 @@ def latest_notes(request):
 
 
 def notes_for_show(request, show_pk):   # pk = show pk
+    activate(get_localzone())
 
     # Notes for show, most recent first
     notes = Note.objects.filter(show=show_pk).order_by('posted_date').reverse()
@@ -68,6 +74,7 @@ def notes_for_show(request, show_pk):   # pk = show pk
 
 @login_required
 def note_details(request, note_pk):
+    activate(get_localzone())
 
     note = get_object_or_404(Note, pk=note_pk)
 
@@ -94,7 +101,7 @@ def note_details(request, note_pk):
                 # Delete any old photo
                 if 'photo' in form.changed_data:
                     photo_manager.delete_photo(old_note.photo)
-
+                note.publish()
                 form.save()
 
                 messages.info(request, 'Note information updated!')
@@ -121,6 +128,7 @@ def note_details(request, note_pk):
 
 @login_required
 def delete_note(request):
+    activate(get_localzone())
 
     pk = request.POST['note_pk']
     note = get_object_or_404(Note, pk=pk)

@@ -9,6 +9,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
 from django.utils import timezone
+from tzlocal import get_localzone
+from django.utils.timezone import activate
+
 
 
 def venue_list(request):
@@ -30,11 +33,12 @@ def venue_list(request):
     page = request.GET.get('page')
     venues = paginator.get_page(page)
 
-    return render(request, 'lmn/venues/venue_list.html', { 'venues' : venues, 'venue.shows':venue.shows, 'form':form, 'search_term' : search_name })
+    return render(request, 'lmn/venues/venue_list.html', { 'venues' : venues, 'form':form, 'search_term' : search_name })
 
 
 def artists_at_venue(request, venue_pk):   # pk = venue_pk
 
+    activate(get_localzone())
     ''' Get all of the artists who have played a show at the venue with pk provided '''
 
     shows = Show.objects.filter(venue=venue_pk).order_by('show_date').reverse() # most recent first
@@ -43,7 +47,6 @@ def artists_at_venue(request, venue_pk):   # pk = venue_pk
     return render(request, 'lmn/artists/artist_list_for_venue.html', {'venue' : venue, 'shows' :shows})
 
 
-
 def venue_detail(request, venue_pk):
-    venue = get_object_or_404(Venue, pk=venue_pk);
-    return render(request, 'lmn/venues/venue_detail.html' , {'venue' : venue})
+    venue = get_object_or_404(Venue, pk=venue_pk)
+    return render(request, 'lmn/venues/venue_detail.html', {'venue': venue})

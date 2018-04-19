@@ -164,3 +164,13 @@ label, legend, fieldset {
   display: block;
   margin-bottom: .5rem;
   font-weight: 600; }
+
+div #left-header {
+  float: left;
+}
+
+div #right-header {
+  text-align: right;
+  overflow: hidden;
+
+}

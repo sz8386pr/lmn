@@ -171,6 +171,11 @@ div #left-header {
 
 div #right-header {
   text-align: right;
-  overflow: hidden;
+overflow: hidden;
+    color:pink;
+}
+
+div #clear {
+  clear: both;
 
 }

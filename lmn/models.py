@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-import datetime
+from django.utils import timezone
 
 # Every model gets a primary key field by default.
 
@@ -53,9 +53,8 @@ class Note(models.Model):
     posted_date = models.DateTimeField(blank=False)
     photo = models.ImageField(upload_to='images/', blank=True, null=True)
 
-
     def publish(self):
-        posted_date = datetime.datetime.today()
+        self.posted_date = timezone.now()
         self.save()
 
     def __str__(self):

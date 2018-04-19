@@ -6,12 +6,18 @@ from .forms import VenueSearchForm, NewNoteForm, ArtistSearchForm, UserRegistrat
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.http.response import HttpResponseForbidden
+from tzlocal import get_localzone
+from django.utils.timezone import activate
+
+activate(get_localzone())
 
 from django.utils import timezone
 
 
 
 def user_profile(request, user_pk):
+    activate(get_localzone())
     users_profile = User.objects.get(pk=user_pk)
     user = request.user
     usernotes = Note.objects.filter(user=users_profile.pk).order_by('posted_date').reverse()
@@ -54,6 +60,13 @@ def edit_user(request, user_pk):
     user = get_object_or_404(User, pk=user_pk)
     form = UserEditForm(instance=user)
 
+    # if invalid user somehow gets this page
+    if request.user != user:
+
+        #Can alter to redirect or render a template to be added
+        return HttpResponseForbidden("ERROR: You may only alter your profile.")
+
+    # otherwise continue...
     if request.method == 'POST':
 
         form = UserEditForm(request.POST, instance=user)

@@ -9,10 +9,15 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
 from django.utils import timezone
+from tzlocal import get_localzone
+from django.utils.timezone import activate
+
+activate(get_localzone())
 
 
 def venues_for_artist(request, artist_pk):   # pk = artist_pk
 
+    activate(get_localzone())
     ''' Get all of the venues where this artist has played a show '''
 
     shows = Show.objects.filter(artist=artist_pk).order_by('show_date').reverse() # most recent first
@@ -22,6 +27,7 @@ def venues_for_artist(request, artist_pk):   # pk = artist_pk
 
 
 def artist_list(request):
+    activate(get_localzone())
     form = ArtistSearchForm()
     search_name = request.GET.get('search_name')
     if search_name:
@@ -38,5 +44,8 @@ def artist_list(request):
 
 
 def artist_detail(request, artist_pk):
-    artist = get_object_or_404(Artist, pk=artist_pk);
-    return render(request, 'lmn/artists/artist_detail.html' , {'artist' : artist})
+    activate(get_localzone())
+    artist = get_object_or_404(Artist, pk=artist_pk)
+    shows = Show.objects.filter(artist_id=artist.pk)
+
+    return render(request, 'lmn/artists/artist_detail.html', {'artist': artist, 'shows': shows})

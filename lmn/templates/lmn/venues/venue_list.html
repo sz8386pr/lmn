@@ -22,7 +22,6 @@
 {% endif %}
 
 <div>
-
 {% for venue in venues %}
 
 <div id="venue_{{ venue.pk }}">
@@ -30,12 +29,14 @@
   <p>{{ venue.city }}, {{ venue.state }}</p>
   {% for show in venue.shows %}
     <p><a href="{% url 'lmn:notes_for_show' show_pk=show.pk %}">{{ show.artist.name }}</a></p>
-  {% empty %}
+    {% empty %}
     <p>No Artists found</p>
-  {% endfor %}
+    {% endfor %}
+
+
   <!--<P>See artists, notes, and add your own <a href='{% url "lmn:artists_at_venue" venue_pk=venue.pk %}'>{{ venue.name }} notes</a></P>-->
 </div>
-<p></b></p>
+
 <hr>
 
 {% empty %}
