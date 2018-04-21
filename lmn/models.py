@@ -58,3 +58,13 @@ class Note(models.Model):
 
     def __str__(self):
         return 'Note for user ID {} for show ID {} with title {} text {} posted on {}'.format(self.user, self.show, self.title, self.text, self.posted_date)
+
+
+'''user profile'''
+class UserProfile(models.Model):
+    username = models.ForeignKey('auth.User', on_delete = models.CASCADE)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length = 50)
+    password1 = models.CharField(max_length = 50)
+    password2 = models.CharField(max_length = 50)
+    created_date = models.DateTimeField(default = datetime.datetime.today)
