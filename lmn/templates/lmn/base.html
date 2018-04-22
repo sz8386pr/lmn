@@ -15,7 +15,7 @@
 <a href="{% url 'lmn:latest_notes' %}">Notes</a>
 
 {% if user.is_authenticated %}
-  <span id='welcome_user_msg'>You are logged in, <a href="{% url 'lmn:user_profile' user_pk=user.pk %}">{{ user.username }}</a>.  <a href="{% url 'logout' %}">Logout</a></span>
+  <span id='welcome_user_msg'>You are logged in, <a href="{% url 'lmn:user_profile' user_pk=user.pk %}">{{ user.username }}</a>. <a href="{% url 'lmn:my_profile' %}">View profile</a> <a href="{% url 'logout' %}">Logout</a></span>
 
 {% else %}
 

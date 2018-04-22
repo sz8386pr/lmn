@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from .models import Venue, Artist, Note, Show
+from .models import Venue, Artist, Note, Show, UserProfile
 from .forms import VenueSearchForm, NewNoteForm, ArtistSearchForm, UserRegistrationForm
 
 from django.contrib.auth.decorators import login_required
@@ -20,8 +20,9 @@ def user_profile(request, user_pk):
 
 @login_required
 def my_user_profile(request):
+    userprofile = UserProfile.objects.get()
     # TODO - editable version for logged-in user to edit own profile
-    return redirect('lmn:user_profile', user_pk=request.user.pk)
+    return redirect('lmn:my_user_profile', user_pk=request.user.pk)
 
 
 

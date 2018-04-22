@@ -1,0 +1,16 @@
+{% extends 'lmn/base.html' %}
+{% block content %}
+</h1>My Profile</h1>
+<p>Username: {{user.username}}</p>
+<p>First name: {{user.first_name}}</p>
+<p>Last name: {{user.last_name}}</p>
+<p>Email: {{user.email}}</p>
+<!-- <a href = "{% url 'my_profile'}">Edit profile</a> -->
+<form method='post' action="">{% csrf_token %}
+  <table id="myprofile_form">
+    {{ form.as_table}}
+  </table>
+  <button type='submit'>Edit</button>
+</form>
+<!-- <button type = 'submit'>Edit</button> -->
+{% endblock %}

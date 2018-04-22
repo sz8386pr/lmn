@@ -68,3 +68,11 @@ class UserProfile(models.Model):
     password1 = models.CharField(max_length = 50)
     password2 = models.CharField(max_length = 50)
     created_date = models.DateTimeField(default = datetime.datetime.today)
+
+    def __str__(self):
+        return username,'\n'
+        first_name, '\n'
+        last_name, '\n'
+        password1, '\n'
+        password2, '\n'
+        created_date, '\n'
