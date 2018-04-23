@@ -7,7 +7,7 @@ from ..models import Venue, Artist, Note, Show
 from django.contrib.auth.models import User
 
 import re, datetime
-from datetime import timezone
+from django.utils import timezone
 
 # TODO verify correct templates are rendered.
 
@@ -365,7 +365,7 @@ class TestAddNotesWhenUserLoggedIn(TestCase):
         self.assertEqual(Note.objects.count(), initial_note_count + 1)
 
         # Date correct?
-        now = datetime.datetime.today()
+        now = timezone.now()
         posted_date = new_note_query.first().posted_date
         self.assertEqual(now.date(), posted_date.date())  # TODO check time too
 
